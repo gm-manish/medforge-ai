@@ -191,28 +191,75 @@ def generate_heart_failure_patient():
 
     return timeline
 
-# --- Main Generator Trigger ---
-if st.button("Generate Cohort"):
-    all_patients = []
+#---------------------------------
+# Add Hypotension Prediction Tab
+# ----------------------------------------
 
-    for _ in range(n_patients):
-        if disease == "Hypertension":
-            all_patients.extend(generate_hypertension_patient())
-        elif disease == "Type 2 Diabetes":
-            all_patients.extend(generate_diabetes_patient())
-        elif disease == "Depression":
-            all_patients.extend(generate_depression_patient())
-        elif disease == "Heart Failure":
-            all_patients.extend(generate_heart_failure_patient())
+import pickle
+from utils import preprocess_vitals  # <- we'll create utils.py with simple preprocessing
 
-    df = pd.DataFrame(all_patients)
-    st.success(f"✅ Generated {n_patients} patient timelines.")
-    st.dataframe(df)
+# Load your trained model
+with open('icu_hypotension_predictor.pkl', 'rb') as f:
+    model = pickle.load(f)
 
-    csv = df.to_csv(index=False).encode("utf-8")
-    st.download_button(
-        label="⬇️ Download Cohort CSV",
-        data=csv,
-        file_name=f"{disease.replace(' ', '_')}_synthetic_cohort.csv",
-        mime="text/csv",
+# --- New Tabs ---
+tab1, tab2 = st.tabs(["🧬 Generate Synthetic Cohort", "📤 Upload Vitals + Predict Hypotension"])
+
+with tab1:
+
+    # --- Main Generator Trigger ---
+    if st.button("Generate Cohort"):
+        all_patients = []
+
+        for _ in range(n_patients):
+            if disease == "Hypertension":
+                all_patients.extend(generate_hypertension_patient())
+            elif disease == "Type 2 Diabetes":
+                all_patients.extend(generate_diabetes_patient())
+            elif disease == "Depression":
+                all_patients.extend(generate_depression_patient())
+            elif disease == "Heart Failure":
+                all_patients.extend(generate_heart_failure_patient())
+
+        df = pd.DataFrame(all_patients)
+        st.success(f"✅ Generated {n_patients} patient timelines.")
+        st.dataframe(df)
+
+        csv = df.to_csv(index=False).encode("utf-8")
+        st.download_button(
+            label="⬇️ Download Cohort CSV",
+            data=csv,
+            file_name=f"{disease.replace(' ', '_')}_synthetic_cohort.csv",
+            mime="text/csv",
     )
+    pass
+
+with tab2:
+    st.header("Upload ICU Vitals for Hypotension Prediction")
+    uploaded_file = st.file_uploader("Upload Vitals CSV", type=["csv"])
+
+    if uploaded_file:
+        uploaded_data = pd.read_csv(uploaded_file)
+        st.dataframe(uploaded_data)
+
+        if st.button('🔮 Predict Hypotension'):
+            X = preprocess_vitals(uploaded_data)
+            preds = model.predict(X)
+            uploaded_data['Hypotension Risk'] = preds
+
+            st.success('✅ Prediction Done! Check Below:')
+            st.dataframe(uploaded_data)
+
+            # Highlight high-risk rows
+            def highlight_risk(row):
+                color = 'background-color: pink' if row['Hypotension Risk'] == 1 else ''
+                return [color]*len(row)
+            
+            st.dataframe(uploaded_data.style.apply(highlight_risk, axis=1))
+
+            st.download_button(
+                "⬇️ Download Prediction CSV",
+                uploaded_data.to_csv(index=False),
+                "predictions.csv",
+                "text/csv"
+            )
