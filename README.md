@@ -1,4 +1,4 @@
-# MedForge AI 🏥🤖
+# MedForge AI 
 
 **Live App:** [https://medforge.streamlit.app](https://medforge.streamlit.app)  
 **GitHub Repo:** [https://github.com/gm-manish/medforge-ai](https://github.com/gm-manish/medforge-ai)
@@ -41,7 +41,7 @@ This app empowers researchers, developers, and clinicians to safely prototype an
 
 ## Tech Stack
 
-- Python ✨
+- Python 
 - Streamlit (frontend)
 - Pandas / scikit-learn (modeling)
 - joblib (model persistence)
