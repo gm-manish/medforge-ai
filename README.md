@@ -5,24 +5,24 @@
 
 ---
 
-## 🚀 Project Overview
+# Project Overview
 
 **MedForge AI** is a real-time, AI-in-the-loop platform for:
-- ✨ **Generating synthetic, HIPAA-safe patient timelines** (e.g., Hypertension, Diabetes, Depression)
-- 🔢 **Predicting hypotension risk** from ICU vitals using a trained machine learning model
+- **Generating synthetic, HIPAA-safe patient timelines** (e.g., Hypertension, Diabetes, Depression)
+- **Predicting hypotension risk** from ICU vitals using a trained machine learning model
 
 This app empowers researchers, developers, and clinicians to safely prototype and validate EHR-based decision tools without exposing real patient data.
 
 ---
 
-## 🏛️ Features
+## Features
 
-### 1. 🧬 Synthetic Cohort Generator
+### 1. Synthetic Cohort Generator
 - Choose disease profiles like Hypertension, Depression, Heart Failure
 - Generate realistic 30-day patient timelines (vitals, notes, medication starts)
 - Download results as clean CSV
 
-### 2. 📊 Hypotension Prediction Engine
+### 2. Hypotension Prediction Engine
 - Upload real or synthetic ICU vitals
 - Supported features:
   - `systolic_bp`, `diastolic_bp`, `mean_bp`
@@ -31,7 +31,7 @@ This app empowers researchers, developers, and clinicians to safely prototype an
 
 ---
 
-## 🔧 How It Works
+## How It Works
 
 1. A trained RandomForestClassifier model (on labeled ICU timelines) is stored as `icu_hypotension_predictor.pkl`
 2. `utils.py` handles preprocessing (missing values, feature alignment)
@@ -39,7 +39,7 @@ This app empowers researchers, developers, and clinicians to safely prototype an
 
 ---
 
-## 📚 Tech Stack
+## Tech Stack
 
 - Python ✨
 - Streamlit (frontend)
@@ -48,7 +48,7 @@ This app empowers researchers, developers, and clinicians to safely prototype an
 
 ---
 
-## 🔍 Sample CSV Format (for prediction)
+## Sample CSV Format (for prediction)
 
 ```csv
 systolic_bp,diastolic_bp,mean_bp
@@ -59,16 +59,16 @@ systolic_bp,diastolic_bp,mean_bp
 
 ---
 
-## 🚀 What's Next
+## What's Next
 
-- [ ] 🔊 Add Sepsis and Cardiac Arrest early-warning models
-- [ ] 🌎 Integrate FHIR-compatible data ingestion
-- [ ] 📈 Streamlit dashboard for multi-patient cohort monitoring
-- [ ] 🔧 Build a MedForge API to embed into hospital systems
+- [ ]  Add Sepsis and Cardiac Arrest early-warning models
+- [ ]  Integrate FHIR-compatible data ingestion
+- [ ]  Streamlit dashboard for multi-patient cohort monitoring
+- [ ]  Build a MedForge API to embed into hospital systems
 
 ---
 
-## 🤝 Want to Collaborate?
+##  Want to Collaborate?
 
 I'm looking for co-founders, healthcare AI researchers, and early users! Let's turn MedForge into the future of simulation-first clinical AI.
 
