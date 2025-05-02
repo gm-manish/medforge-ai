@@ -198,9 +198,9 @@ def generate_heart_failure_patient():
 import pickle
 from utils import preprocess_vitals  # <- we'll create utils.py with simple preprocessing
 
-# Load your trained model
-with open('icu_hypotension_predictor.pkl', 'rb') as f:
-    model = pickle.load(f)
+import joblib
+model = joblib.load('icu_hypotension_predictor.pkl')
+
 
 # --- New Tabs ---
 tab1, tab2 = st.tabs(["🧬 Generate Synthetic Cohort", "📤 Upload Vitals + Predict Hypotension"])
@@ -240,6 +240,9 @@ with tab2:
 
     if uploaded_file:
         uploaded_data = pd.read_csv(uploaded_file)
+
+        uploaded_data.columns = uploaded_data.columns.str.lower().str.strip()
+        
         st.dataframe(uploaded_data)
 
         if st.button('🔮 Predict Hypotension'):
